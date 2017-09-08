@@ -240,7 +240,7 @@ class LogStash::Filters::Metrics < LogStash::Filters::Base
         @metric_fields[event.sprintf(name)].clear
         @metric_add_fields.each_pair do |field, value|
           new_field = event.sprintf(field)
-          new_value = [value] if !value.is_a?(Array)
+          new_value = Array(value)
           new_value.each do |v|
             v = event.sprintf(v)
             if event.include?(new_field) && (event.get(new_field) != v)
@@ -278,7 +278,7 @@ class LogStash::Filters::Metrics < LogStash::Filters::Base
       @semaphore.synchronize {
         @metric_fields[name].each_pair do |field, value|
           field=event.sprintf(field)
-          val = [value] if !value.is_a?(Array)
+          val = Array(value)
           val.each do |v|
             if event.include?(v) && (event.get(field) != v)
               if !event.get(v).is_a?(Array)
@@ -324,7 +324,7 @@ class LogStash::Filters::Metrics < LogStash::Filters::Base
       @semaphore.synchronize {
         @metric_fields[name].each_pair do |field, value|
           field=event.sprintf(field)
-          val = [value] if !value.is_a?(Array)
+          val = Array(value)
           val.each do |v|
             if event.include?(v) && (event.get(field) != v)
               if !event.get(v).is_a?(Array)
